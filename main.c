@@ -18,4 +18,5 @@ void main(void ) {
     printf("Encoded: %s\n", encoded);
     decode(encoded, decoded);
     printf("Decoded: %s\n", decoded);
+    printf("Alessandro solution");
 }
