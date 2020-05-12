@@ -11,13 +11,21 @@ void encode(const char *original, char *encoded){
         char previous_char = *po;
         *po++;
         if (previous_char == *po) {
-            counter++;} else {
+            counter++;}
+        else {
+            if (counter > 1){
             printf("The value of the counter is %d\n", counter);
-        snprintf(pc, 100, "%d", counter);
-        *pc ++;
-        *pc = previous_char;
-        counter = 1;
-        *pc++;}
+            sprintf(pc, "%d", counter);
+
+            while (counter){
+                *pc++;
+                counter /= 10;
+            }
+            }
+            *pc = previous_char;
+            *pc++;
+            counter = 1;
+        }
     }
 
 }
