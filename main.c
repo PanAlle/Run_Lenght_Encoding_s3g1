@@ -1,15 +1,25 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 void encode(const char *original, char *encoded){
     const char *po = &original[0];
     char *pc = &encoded[0];
-    int counter = 0;
-    while (*po++ != '\0'){
-        counter++;
+    int counter = 1;
+    while (*po != '\0') {
+        char previous_char = *po;
+        *po++;
+        if (previous_char == *po) {
+            counter++;} else {
+            printf("The value of the counter is %d\n", counter);
+        snprintf(pc, 100, "%d", counter);
+        *pc ++;
+        *pc = previous_char;
+        counter = 1;
+        *pc++;}
     }
-        printf("Nuber of character in the string %d\n", counter);
-    encoded[1] = counter;
+
 }
 
 void decode(const char *encoded, char *decoded){
