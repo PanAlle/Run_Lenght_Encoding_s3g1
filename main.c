@@ -3,35 +3,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-void encode(const char *original, char *encoded){
+void encode(const char *original, char *encoded) {
     const char *po = &original[0];
-    char *pc = &encoded[0];
+    char *pe = &encoded[0];
     int counter = 1;
+    int string_lenght_counter = 0;
     while (*po != '\0') {
         char previous_char = *po;
         *po++;
         if (previous_char == *po) {
-            counter++;}
-        else {
-            if (counter > 1){
-            printf("The value of the counter is %d\n", counter);
-            sprintf(pc, "%d", counter);
+            counter++;
+        } else {
+            if (counter > 1) {
+                //printf("The value of the counter is %d\n", counter);
+                snprintf(pe,3,  "%d", counter);
 
-            while (counter){
-                *pc++;
-                counter /= 10;
+                while (counter) {
+                    *pe++;
+                    counter /= 10;
+                }
             }
-            }
-            *pc = previous_char;
-            *pc++;
+            *pe = previous_char;
+            *pe++;
             counter = 1;
         }
+        //string_lenght_counter++;
     }
 
 }
 
-void decode(const char *encoded, char *decoded){
-    //TO DO
+void decode(const char *encoded, char *decoded) {
+    const char *pe = &encoded[0];
+    char *pd = &decoded[0];
+    long int integer = 0;
+    char *end;
+    while (*pe != '\0'){
+    if (isdigit(*pe) != 0) {
+        integer = strtol(encoded, &end, 10);
+        printf("The value of the counter is %ld\n", integer);
+    }
+    pe = &end;
+        while (integer){
+            *pd = *pe;
+            *pd++;
+            integer --;
+        }
+    }
 }
 
 void main(void ) {
