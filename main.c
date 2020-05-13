@@ -7,16 +7,22 @@ void encode(const char *original, char *encoded) {
     const char *po = &original[0];
     char *pe = &encoded[0];
     int counter = 1;
-    int string_lenght_counter = 0;
+    int lengh_pe = strlen(pe);
     while (*po != '\0') {
+        //printf("The lenght of the string is here %d\n", lenght);
         char previous_char = *po;
         *po++;
         if (previous_char == *po) {
             counter++;
         } else {
             if (counter > 1) {
-                //printf("The value of the counter is %d\n", counter);
-                snprintf(pe,3,  "%d", counter);
+                    int tmp = counter;
+                    int digits = 1;
+                    while (tmp){
+                        tmp /= 10;
+                        digits++;
+                    }
+                snprintf(pe,digits,  "%d", counter);
 
                 while (counter) {
                     *pe++;
@@ -27,8 +33,11 @@ void encode(const char *original, char *encoded) {
             *pe++;
             counter = 1;
         }
-        //string_lenght_counter++;
+        int new_lenght_of_pe = lengh_pe - strlen(pe);
+        printf("Lenght of pe at he end %d\n", new_lenght_of_pe);
+        *(pe + new_lenght_of_pe - 1) = '\0';
     }
+
 
 }
 
@@ -40,9 +49,9 @@ void decode(const char *encoded, char *decoded) {
     while (*pe != '\0'){
     if (isdigit(*pe) != 0) {
         integer = strtol(encoded, &end, 10);
-        printf("The value of the counter is %ld\n", integer);
+        //printf("The value of the counter is %ld\n", integer);
     }
-    pe = &end;
+    //pe = &end;
         while (integer){
             *pd = *pe;
             *pd++;
