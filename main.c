@@ -8,7 +8,7 @@ void encode(const char *original, char *encoded) {
     char *pe = &encoded[0];
     int counter = 1;
     unsigned int lengh_pe = strlen(pe);
-    while (*po != '\0') {
+    for (int i = 0; i < strlen(original); ++i) {
         //save the previous character and iterate to the next
         char previous_char = *po;
         *po++;
@@ -49,27 +49,27 @@ void encode(const char *original, char *encoded) {
 }
 
 void decode(const char *encoded, char *decoded) {
-    const char *pe = encoded;
+    const char *pe = &encoded[0];
     char *pd = &decoded[0];
-    while (*pe) {
-        long integer = 0;
+    //unsigned int lengh_pd = strlen(pd);
+    for (int j = 0; j < strlen(encoded)-2; ++j) {
         if (isdigit(*pe)) {
-            integer = strtol(pe, &pe, 10);
-            //printf("end pointer is pointing at %c\n", *endptr);
-            printf("Value of int %d\n", integer);
+            char* end;
+            long int integer = strtol(pe, &end, 10);
+            pe = end;
             for (int i = 1; i < integer; i++) {
                 *pd = *pe;
-                *pd++;
-
+                pd++;
             }
+
         } else {
             *pd = *pe;
-            pe++;
             pd++;
+            pe++;
         }
-        printf("Pointer at which pe is pointing: %c\n", *pe);
-        //encoded++;
     }
+    //unsigned int new_lenght_of_pd = lengh_pd - strlen(pd);
+    //*(pd + new_lenght_of_pd - 1) = '\0';
 }
 
 void main(void ) {
@@ -78,7 +78,7 @@ void main(void ) {
     char decoded [100];
     printf("Original: %s\n", original);
     encode(original , encoded);
-    printf("Encoded: %s\n", encoded);
+    printf("Encoded : %s\n", encoded);
     decode(encoded, decoded);
-    printf("Decoded: %s\n", decoded);
+    printf("Decoded : %s\n", decoded);
 }
