@@ -16,7 +16,7 @@ void encode(const char *original, char *encoded) {
         if (previous_char == *po) {
             counter++;
         }
-            //When the sequential character are not equal insert in the string the value of the counter and add the letter
+        //When the sequential character are not equal insert in the string the value of the counter and add the letter
         else {
             if (counter > 1) {
                 int tmp = counter;
