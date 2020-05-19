@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-char* encode(const char *original)
+char* encode(const char *original, char *encoded)
 {
     int length = strlen(original);
     int count[100];  //the repeated number of each letter
@@ -27,59 +27,51 @@ char* encode(const char *original)
         }
     }
 
-    char * encoded = malloc(start*sizeof(char)+start*sizeof(unsigned char)); //create a piece of memory in the heap to keep the memory in the main function
-	memset(encoded,0,start*sizeof(char)+start*sizeof(unsigned char)); //empty the created memory
+	memset(encoded,0,sizeof(encoded)); //empty the created memory
 
-    for(int i=0;i<=start;i++)
+    for(int i=0;i<=start;i++)   // put the number and letter together
     {
-		if (count[i]!=1)
+		if (count[i]!=1)        // if the corresponding number is 1, we omit it, and only record the letter
         	sprintf(encoded,"%s%d", encoded,count[i]);
         sprintf(encoded,"%s%c", encoded,store[i]);
     }
-
-	return encoded;
 }
 
-char* decode(const char *encoded)
+void decode(const char *encoded, char *decoded)
 {
-    char *decoded = malloc(100*sizeof(char));
-    memset(decoded,0,100*sizeof(char));
+    memset(decoded,0,sizeof(decoded));     // clean up the space, avoid garbled
 
-    char num[100];
+    char num[100];     // create a new char array for the number in the string
     memset(num,0,sizeof(num));
 
     for(int i=0; encoded[i]!='\0'; i++)
     {
-        if(isdigit(encoded[i]))
+        if(isdigit(encoded[i])) // store the number to num, if there is number before letter.
             sprintf(num,"%s%c",num,encoded[i]);
 
         else
         {
-            for(int j=0;j < (atoi(num)-1);j++)
+            for(int j=0;j < (atoi(num)-1);j++) //repeated put the letter to decoded with corresponding time
                 sprintf(decoded,"%s%c",decoded,encoded[i]);
 
-            sprintf(decoded,"%s%c",decoded,encoded[i]);
-            memset(num,0,sizeof(num));
+            sprintf(decoded,"%s%c",decoded,encoded[i]); // when there is no number before letter, just put the letter in the string
+            memset(num,0,sizeof(num)); // initial num for next loop
         }
     }
-
-    return decoded;
-
 }
 
 void main(void)
 {
     const char original[100] = "WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB";
+    char encoded [100];
+    char decoded [100];
+
     printf("Original: %s \n", original);
 
-    char *encoded = encode(original);
+    encode(original, encoded);
     printf("\nEncoded: %s \n", encoded);
 
 
-    char* decoded = decode(encoded);
+    decode(encoded,decoded);
     printf("Decoded: %s \n", decoded);
-
-    free(encoded);
-    free(decoded);
-
 }
